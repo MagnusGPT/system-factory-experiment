@@ -11,11 +11,14 @@ addPoints: adds points to the emitted socket
 let amountOfConnections = 0;
 let sockets = {};
 let threshold = 100;
+
+
 io.on("connection", (socket) => {
     console.log("Someone connected");
     amountOfConnections++;
+
     sockets[socket.id] = { balance: 0 };
-    console.log(sockets);
+
     socket.on("checkPoints", (pointAmount) => {
         if (pointAmount > threshold) {
             socket.emit("setPoints", 0);
@@ -38,7 +41,11 @@ io.on("connection", (socket) => {
             io.emit("addPoints", sharedAmount)
             console.log(`Everyone received ${sharedAmount}.`);
         }
-        sockets[socket.id].balance = 0;
+        delete sockets[socket.id];
+    });
+
+    socket.on("checkSockets", () => {
+        socket.emit("checkSockets", sockets)
     });
 });
 
