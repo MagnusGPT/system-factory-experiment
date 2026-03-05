@@ -35,7 +35,7 @@ io.on("connection", (socket) => {
             console.log("No connections left."); 
         }
         else {
-            console.emit("addPoints", sharedAmount)
+            io.emit("addPoints", sharedAmount)
             console.log(`Everyone received ${sharedAmount}.`);
         }
         sockets[socket.id].balance = 0;
@@ -48,13 +48,9 @@ setInterval(() => {
 }, 100);
 
 let pointEmitted = 1;
+
 // Emit points.
 setInterval(() => {
     io.emit("addPoints", pointEmitted);
     console.log(`${pointEmitted} amount of points emitted.`);
 }, 1000);
-
-if (pointEmitted > 10) {
-    pointEmitted = 0;
-    console.log(`Point went over 10. Reset to ${pointEmitted}`);
-}
