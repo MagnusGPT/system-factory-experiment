@@ -33,11 +33,11 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         amountOfConnections--;
         console.log(`Socket ${socket.id} disconnected. Sharing their points between others.`);
-        sharedAmount = Math.floor(sockets[socket.id].balance / amountOfConnections);
         if (amountOfConnections === 0) { 
             console.log("No connections left."); 
         }
         else {
+            let sharedAmount = Math.floor(sockets[socket.id].balance / amountOfConnections);
             io.emit("addPoints", sharedAmount)
             console.log(`Everyone received ${sharedAmount}.`);
         }
