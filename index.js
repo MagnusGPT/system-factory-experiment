@@ -6,6 +6,7 @@ const io = new Server(3000);
 List of signals:
 setPoints: sets amount of points of the emitted socket
 addPoints: adds points to the emitted socket
+checkSockets: returns the list of sockets
 */
 
 let amountOfConnections = 0;
@@ -38,14 +39,14 @@ io.on("connection", (socket) => {
         }
         else {
             let sharedAmount = Math.floor(sockets[socket.id].balance / amountOfConnections);
-            io.emit("addPoints", sharedAmount)
+            io.emit("addPoints", sharedAmount);
             console.log(`Everyone received ${sharedAmount}.`);
         }
         delete sockets[socket.id];
     });
 
     socket.on("checkSockets", () => {
-        socket.emit("checkSockets", sockets)
+        socket.emit("checkSockets", sockets);
     });
 });
 
